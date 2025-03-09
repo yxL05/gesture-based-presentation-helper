@@ -3,3 +3,6 @@ numpy
 mediapipe
 tensorflow
 jupyter
+pandas
+seaborn
+scikit-learn
