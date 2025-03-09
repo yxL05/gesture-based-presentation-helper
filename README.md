@@ -17,6 +17,13 @@ A functional camera (and your permission to use it).
 2. Chrome extension for Google applications.
 
 ## How It Works
-1. The user chooses the presentation app they are using, two hand gestures used as signal to enable and disable hand gesture shortcuts respectively, and calibrates the ML model if needed using the GUI.
+1. The user chooses the camera mode, the presentation app they are using, two hand gestures used as signal to enable and disable hand gesture shortcuts respectively, and calibrates the ML model if needed using the GUI.
 2. Once the chosen presentation app is in presentation mode, the ML model starts searching for the signal hand gesture.
 3. If the chosen "enable shortcuts" hand gesture is detected, the user will be able to use presentation keyboard shortcuts via simple hand gestures.
+
+## User settings to implement
+1. Camera mode (selfie or normal)
+2. Presentation app (dropdown menu? preconfigured list?)
+3. "Toggle" hand gestures
+4. Calibration menu
+5. Settings to customize sign mapping
