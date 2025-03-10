@@ -1,6 +1,7 @@
-venv setup (in VSCode):
-1. Ctrl+Shift+P -> Python: create environment -> venv -> Choose Python version
-2. Ctrl+` -> .\.venv\Scripts\activate -> (venv) pip install -r requirements.txt
+venv setup (in VSCode, hand-gesture-recognition-mediapipe-main directory):
+    1. Ctrl+Shift+P -> Python: create environment -> venv -> Choose Python version
+    2. Ctrl+` -> .\.venv\Scripts\activate -> (venv) pip install -r requirements.txt
+    3. (venv) python -m ipykernel install --name=.venv
 
 (To test Python ML app independently of C# app)
-3. (venv) .\hand-gesture-recognition-mediapipe-main\app.py
+    (venv) python .\app.py (inside hand-gesture-recognition-mediapipe-main directory)
