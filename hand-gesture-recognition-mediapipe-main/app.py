@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import csv
 import copy
@@ -7,10 +6,9 @@ import itertools
 from collections import Counter
 from collections import deque
 
-# Warnings ignored since app is functional in .venv
-import cv2 as cv # type: ignore
-import numpy as np # type: ignore
-import mediapipe as mp # type: ignore
+import cv2 as cv
+import numpy as np 
+import mediapipe as mp 
 
 from utils import CvFpsCalc
 from model import KeyPointClassifier
