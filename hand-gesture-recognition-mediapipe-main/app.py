@@ -26,11 +26,15 @@ def get_args():
     parser.add_argument("--min_detection_confidence",
                         help='min_detection_confidence',
                         type=float,
-                        default=0.7)
+                        default=0.95)
     parser.add_argument("--min_tracking_confidence",
                         help='min_tracking_confidence',
                         type=int,
                         default=0.5)
+    parser.add_argument("--selfie_mode",
+                        help="selfie_mode",
+                        type=int,
+                        default=1)
 
     args = parser.parse_args()
 
@@ -48,6 +52,7 @@ def main():
     use_static_image_mode = args.use_static_image_mode
     min_detection_confidence = args.min_detection_confidence
     min_tracking_confidence = args.min_tracking_confidence
+    selfie_mode = args.selfie_mode
 
     use_brect = True
 
@@ -110,7 +115,9 @@ def main():
         ret, image = cap.read()
         if not ret:
             break
-        image = cv.flip(image, 1)  # Mirror display
+
+        if selfie_mode == 1:
+            image = cv.flip(image, 1)  # Mirror display: 1. Camera mode (selfie or normal)
         debug_image = copy.deepcopy(image)
 
         # Detection implementation #############################################################
