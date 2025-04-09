@@ -1,0 +1,22 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore Visual Studio temporary files
+.vs/
+
+# Ignore user-specific project settings
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore backup and temp files
+*.bak
+*.tmp
+
+# Ignore local debug or crash logs
+*.log
+
+# Optional: Ignore test results
+TestResults/
