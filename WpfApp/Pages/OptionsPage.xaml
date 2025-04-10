@@ -69,9 +69,24 @@
 
             <!-- Toggle Hand Gestures Dropdown -->
             <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                <TextBlock Text="'Toggle' Hand Gestures" Style="{StaticResource SectionTitle}"/>
-                <ComboBox Name="GestureComboBox" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="'Toggle' Hand Gesture" 
+                   Style="{StaticResource SectionTitle}" 
+                   VerticalAlignment="Center"/>
+
+                    <!-- Info Icon with Tooltip -->
+                    <TextBlock Text=" ⓘ" 
+                        FontSize="18"
+                        Foreground="Black"
+                        Margin="8,-5,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="Select the gesture that will be used to enable/disable other gestures."/>
+                </StackPanel>
+
+                <ComboBox Name="GestureComboBox" Margin="0,5,0,0"/>
             </StackPanel>
+
+
 
             <!-- App to Use Dropdown -->
             <StackPanel Orientation="Vertical" Margin="0,20,0,0">

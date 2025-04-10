@@ -4,5 +4,9 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!-- You can define app-wide styles here if needed -->
+		<Style TargetType="ToolTip">
+			<Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+			<Setter Property="ToolTipService.ShowDuration" Value="5000"/>
+		</Style>
     </Application.Resources>
 </Application>
