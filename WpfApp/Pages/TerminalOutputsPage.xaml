@@ -1,0 +1,38 @@
+﻿<Page x:Class="HandyPresentationHelper.Pages.TerminalOutputsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Terminal Outputs"
+      Background="Black"
+      Height="600"
+      Width="800">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Title -->
+            <RowDefinition Height="*"/>
+            <!-- Terminal output box -->
+        </Grid.RowDefinitions>
+
+        <!-- Centered Title -->
+        <TextBlock Text="Terminal Outputs"
+                   Foreground="White"
+                   FontSize="32"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"
+                   Grid.Row="0"/>
+
+        <!-- Terminal output box -->
+        <TextBox Name="TerminalOutputTextBox"
+                 Background="Black"
+                 Foreground="Lime"
+                 FontFamily="Consolas"
+                 FontSize="14"
+                 IsReadOnly="True"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap"
+                 Grid.Row="1"/>
+    </Grid>
+</Page>

@@ -49,7 +49,12 @@ namespace HandyPresentationHelper.Pages
             {
                 MessageBox.Show($"{selectedApp} is running!", "App Found", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                // Create and navigate to TerminalOutputsPage
+                var terminalPage = new TerminalOutputsPage();
+                ((MainWindow)Application.Current.MainWindow).MainFrame.Navigate(terminalPage);
+
                 // Proceed to WebSocket connection or other startup tasks here
+                LaunchPythonBackend(terminalPage);
 
             }
             else
@@ -117,5 +122,72 @@ namespace HandyPresentationHelper.Pages
                 MessageBox.Show($"Error loading gestures: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private async void LaunchPythonBackend(TerminalOutputsPage terminalPage)
+        {
+            try
+            {
+                // Bunch of constants for .venv Python path
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string solutionRoot = Path.GetFullPath(Path.Combine(baseDir, @"..\..\..\.."));
+
+                string pythonExePath = Path.Combine(solutionRoot, @"hand-gesture-recognition-mediapipe-main\.venv\Scripts\python.exe");
+                string scriptPath = Path.Combine(solutionRoot, @"hand-gesture-recognition-mediapipe-main\app.py");
+
+                // TODO: insert correct args
+                string selfieModeArg = (SelfieModeCheckBox.IsChecked == true) ? "--selfie_mode 1" : "--selfie_mode 0";
+
+                // Sum of args
+                string additionalArgs = selfieModeArg;
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = pythonExePath,
+                    Arguments = $"\"{scriptPath}\" {additionalArgs}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                var process = new Process
+                {
+                    StartInfo = psi
+                };
+
+                process.OutputDataReceived += (s, e) =>
+                {
+                    if (e.Data != null)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            terminalPage.AppendOutput($"[STDOUT] {e.Data}");
+                        });
+                    }
+                };
+
+                process.ErrorDataReceived += (s, e) =>
+                {
+                    if (e.Data != null)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            terminalPage.AppendOutput($"[STDERR] {e.Data}");
+                        });
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                await process.WaitForExitAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to start Python script: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }

@@ -147,6 +147,7 @@ def main():
 
                 # Hand sign classification
                 hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
+                # print(hand_sign_id) # TODO: remove test log
                 if hand_sign_id == "N/A":  # Point gesture: currently disabled
                     point_history.append(landmark_list[8])
                 else:
