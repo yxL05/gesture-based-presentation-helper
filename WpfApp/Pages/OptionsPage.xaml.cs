@@ -144,6 +144,7 @@ namespace HandyPresentationHelper.Pages
                 {
                     FileName = pythonExePath,
                     Arguments = $"\"{scriptPath}\" {additionalArgs}",
+                    WorkingDirectory = solutionRoot,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
