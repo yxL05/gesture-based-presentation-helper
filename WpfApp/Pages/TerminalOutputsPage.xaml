@@ -12,6 +12,8 @@
             <!-- Title -->
             <RowDefinition Height="*"/>
             <!-- Terminal output box -->
+            <RowDefinition Height="Auto"/>
+            <!-- STOP button -->
         </Grid.RowDefinitions>
 
         <!-- Centered Title -->
@@ -30,9 +32,26 @@
                  FontFamily="Consolas"
                  FontSize="14"
                  IsReadOnly="True"
+                 Margin="35"
+                 Padding="10"
                  VerticalScrollBarVisibility="Auto"
                  HorizontalScrollBarVisibility="Auto"
                  TextWrapping="Wrap"
                  Grid.Row="1"/>
+
+        <!-- STOP button -->
+        <Button Content="STOP!"
+                Name="StopButton"
+                Width="200"
+                Height="60"
+                FontSize="24"
+                FontWeight="Bold"
+                Background="Red"
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,20,0,50"
+                Click="StopButton_Click"
+                Grid.Row="2"/>
     </Grid>
 </Page>
