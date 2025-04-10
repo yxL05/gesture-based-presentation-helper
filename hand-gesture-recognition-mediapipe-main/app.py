@@ -5,6 +5,7 @@ import argparse
 import itertools
 from collections import Counter
 from collections import deque
+import time
 
 import cv2 as cv
 import numpy as np 
@@ -39,7 +40,6 @@ def get_args():
     args = parser.parse_args()
 
     return args
-
 
 def main():
     # Argument parsing #################################################################
@@ -102,6 +102,8 @@ def main():
     #  ########################################################################
     mode = 0
 
+    last_print_time = time.time()
+
     while True:
         fps = cvFpsCalc.get()
 
@@ -147,7 +149,12 @@ def main():
 
                 # Hand sign classification
                 hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
-                # print(hand_sign_id) # TODO: remove test log
+                
+                current_time = time.time()
+                if current_time - last_print_time >= 3:
+                    print(f"Detected hand sign: {keypoint_classifier_labels[hand_sign_id]}")
+                    last_print_time = current_time
+
                 if hand_sign_id == "N/A":  # Point gesture: currently disabled
                     point_history.append(landmark_list[8])
                 else:

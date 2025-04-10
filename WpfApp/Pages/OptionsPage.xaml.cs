@@ -143,7 +143,7 @@ namespace HandyPresentationHelper.Pages
                 var psi = new ProcessStartInfo
                 {
                     FileName = pythonExePath,
-                    Arguments = $"\"{scriptPath}\" {additionalArgs}",
+                    Arguments = $"-u \"{scriptPath}\" {additionalArgs}",
                     WorkingDirectory = solutionRoot,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
