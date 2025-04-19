@@ -1,12 +1,6 @@
 # "Hand"y Presentation Helper
 Presentation helper using a ML model that detects and recognizes various hand gestures (forked from https://github.com/kinivi/hand-gesture-recognition-mediapipe, original version: https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe).
 
-## Contributors
-* Omar Jaber (https://github.com/omaritojaber)
-* Antoine Labbé (https://github.com/Marzzeau)
-* Yang Li (https://github.com/yxL05)
-* Kevin Wu (https://github.com/ToasterBuilder)
-
 ## Requisites
 A functional camera (and your permission to use it).
 
