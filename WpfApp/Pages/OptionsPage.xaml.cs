@@ -32,6 +32,31 @@ namespace HandyPresentationHelper.Pages
                 return;
             }
 
+            // Make sure all actions are mapped to gestures
+            if (ToggleGestureComboBox.SelectedItem == null ||
+                StartGestureComboBox.SelectedItem == null ||
+                DownGestureComboBox.SelectedItem == null ||
+                UpGestureComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a gesture for all keybinds (Toggle, Start, Go Down, Go Up).", "Incomplete Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // No duplicate gestures allowed
+            var selectedGestures = new[]
+            {
+                ToggleGestureComboBox.SelectedItem?.ToString(),
+                StartGestureComboBox.SelectedItem?.ToString(),
+                DownGestureComboBox.SelectedItem?.ToString(),
+                UpGestureComboBox.SelectedItem?.ToString()
+            };
+
+            if (selectedGestures.Distinct().Count() != selectedGestures.Length)
+            {
+                MessageBox.Show("Each gesture must be assigned to only one keybind. Please ensure all keybinds are unique.", "Duplicate Keybinds", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             // Map UI selection to actual process name
             string? processName = selectedApp switch
             {
@@ -112,8 +137,12 @@ namespace HandyPresentationHelper.Pages
 
                     foreach (var line in lines)
                     {
-                        // Add each line as a ComboBox item
-                        GestureComboBox.Items.Add(line.Trim());
+                        string gesture = line.Trim();
+
+                        ToggleGestureComboBox.Items.Add(gesture);
+                        StartGestureComboBox.Items.Add(gesture);
+                        DownGestureComboBox.Items.Add(gesture);
+                        UpGestureComboBox.Items.Add(gesture);
                     }
                 }
                 else

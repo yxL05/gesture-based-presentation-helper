@@ -2,9 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Background="DarkCyan"
-      Title="Options"
-      Width="800"
-      Height="600">
+      Title="Options">
 
     <Page.Resources>
         <Style TargetType="ComboBox">
@@ -45,59 +43,81 @@
         </Style>
     </Page.Resources>
 
-    <DockPanel LastChildFill="True" Margin="50">
+    <DockPanel LastChildFill="False" Margin="20">
 
         <!-- GO! Button docked at bottom -->
         <Button Content="GO!"
                 DockPanel.Dock="Bottom"
-                Click="GoButton_Click"/>
+                Click="GoButton_Click"
+                Height="50" 
+                Margin="0,10,0,0"/>
 
         <!-- Main content stack -->
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Top">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
 
-            <!-- Title -->
-            <TextBlock Text="Options"
-                       FontSize="34"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Center"
-                       Margin="0,10,0,30"/>
+                <!-- Title -->
+                <TextBlock Text="Options"
+                           FontSize="34"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,30"/>
 
-            <!-- Selfie Mode Checkbox -->
-            <CheckBox Name="SelfieModeCheckBox"
-                      Content="Selfie Mode (Mirror Image)" 
-                      VerticalContentAlignment="Center"/>
+                <!-- Selfie Mode Checkbox -->
+                <CheckBox Name="SelfieModeCheckBox"
+                          Content="Selfie Mode (Mirror Image)" 
+                          VerticalContentAlignment="Center"/>
 
-            <!-- Toggle Hand Gestures Dropdown -->
-            <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="'Toggle' Hand Gesture" 
-                   Style="{StaticResource SectionTitle}" 
-                   VerticalAlignment="Center"/>
-
-                    <!-- Info Icon with Tooltip -->
-                    <TextBlock Text=" ⓘ" 
-                        FontSize="18"
-                        Foreground="Black"
-                        Margin="8,-5,0,0"
-                        VerticalAlignment="Center"
-                        ToolTip="Select the gesture that will be used to enable/disable other gestures."/>
+                <!-- App to Use Dropdown -->
+                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+                    <TextBlock Text="App to Use" Style="{StaticResource SectionTitle}"/>
+                    <ComboBox Name="AppComboBox">
+                        <ComboBoxItem Content="PowerPoint"/>
+                        <ComboBoxItem Content="Word"/>
+                    </ComboBox>
                 </StackPanel>
 
-                <ComboBox Name="GestureComboBox" Margin="0,5,0,0"/>
+                <!-- KEYBINDS SECTION -->
+                <TextBlock Text="Keybinds" 
+                           Style="{StaticResource SectionTitle}" 
+                           Margin="0,30,0,10"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"/>
+
+                <!-- Toggle -->
+                <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="'Toggle'" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="(?)"
+                                   Foreground="Gray"
+                                   FontWeight="Bold"
+                                   ToolTip="Gesture used to enable or disable the helper"
+                                   Margin="10,0,0,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ComboBox Name="ToggleGestureComboBox"/>
+                </StackPanel>
+
+                <!-- Start (PowerPoint only) -->
+                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+                    <TextBlock Text="'Start' (PowerPoint only)" Style="{StaticResource SectionTitle}"/>
+                    <ComboBox Name="StartGestureComboBox"/>
+                </StackPanel>
+
+                <!-- Go Down -->
+                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+                    <TextBlock Text="'Go Down'" Style="{StaticResource SectionTitle}"/>
+                    <ComboBox Name="DownGestureComboBox"/>
+                </StackPanel>
+
+                <!-- Go Up -->
+                <StackPanel Orientation="Vertical" Margin="0,20,0,30">
+                    <TextBlock Text="'Go Up'" Style="{StaticResource SectionTitle}"/>
+                    <ComboBox Name="UpGestureComboBox"/>
+                </StackPanel>
+
             </StackPanel>
-
-
-
-            <!-- App to Use Dropdown -->
-            <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                <TextBlock Text="App to Use" Style="{StaticResource SectionTitle}"/>
-                <ComboBox Name="AppComboBox">
-                    <ComboBoxItem Content="PowerPoint"/>
-                    <ComboBoxItem Content="Word"/>
-                </ComboBox>
-            </StackPanel>
-
-        </StackPanel>
-
+        </ScrollViewer>
     </DockPanel>
 </Page>
