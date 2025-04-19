@@ -15,6 +15,38 @@ from utils import CvFpsCalc
 from model import KeyPointClassifier
 from model import PointHistoryClassifier
 
+import asyncio
+import websockets # type: ignore
+import json
+import threading
+from datetime import datetime
+
+connected_clients = set()
+
+async def websocket_handler(websocket):
+    connected_clients.add(websocket)
+    try:
+        await asyncio.Future()  # Keep connection open
+    finally:
+        connected_clients.remove(websocket)
+
+def broadcast_gesture(gesture_label):
+    message = {
+        "gesture": gesture_label,
+        "timestamp": datetime.now().isoformat()
+    }
+    json_message = json.dumps(message)
+
+    async def send_all():
+        for client in connected_clients.copy():
+            try:
+                await client.send(json_message)
+            except Exception as e:
+                print(f"[ERROR] Failed to send to client: {e}")
+                connected_clients.discard(client)
+
+    # Proper coroutine object passed here ✅
+    asyncio.run_coroutine_threadsafe(send_all(), websocket_loop)
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -152,7 +184,12 @@ def main():
                 
                 current_time = time.time()
                 if current_time - last_print_time >= 3:
-                    print(f"Detected hand sign: {keypoint_classifier_labels[hand_sign_id]}")
+                    gesture_label = keypoint_classifier_labels[hand_sign_id]
+                    print(f"Detected hand sign: {gesture_label}")
+                    if hand_sign_id >= 0 and hand_sign_id <= 4:
+                        broadcast_gesture(gesture_label)
+                    else:
+                        broadcast_gesture("None")
                     last_print_time = current_time
 
                 if hand_sign_id == "N/A":  # Point gesture: currently disabled
@@ -552,6 +589,19 @@ def draw_info(image, fps, mode, number):
                        cv.LINE_AA)
     return image
 
+def start_websocket_server():
+    global websocket_loop
+    websocket_loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(websocket_loop)
+
+    async def server_main():
+        async with websockets.serve(websocket_handler, "localhost", 8765):
+            print("[INFO] WebSocket server started on ws://localhost:8765")
+            await asyncio.Future()  # Keeps the server alive
+
+    websocket_loop.run_until_complete(server_main())
+    websocket_loop.run_forever()
 
 if __name__ == '__main__':
+    threading.Thread(target=start_websocket_server, daemon=True).start()
     main()

@@ -6,4 +6,4 @@ pandas
 scikit-learn
 seaborn
 tensorflow
-
+websockets

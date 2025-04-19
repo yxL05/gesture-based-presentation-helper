@@ -3,6 +3,10 @@ using System.Linq;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+using System.Text.Json;
 
 namespace HandyPresentationHelper.Pages
 {
@@ -123,6 +127,60 @@ namespace HandyPresentationHelper.Pages
             }
         }
 
+        public class GestureMessage
+        {
+            public string Gesture { get; set; }
+            public string Timestamp { get; set; }
+        }
+
+        private async Task ConnectToGestureWebSocketAsync(TerminalOutputsPage terminalPage)
+        {
+            using var ws = new ClientWebSocket();
+            var buffer = new byte[1024];
+
+            try
+            {
+                await ws.ConnectAsync(new Uri("ws://localhost:8765"), CancellationToken.None);
+                Dispatcher.Invoke(() => terminalPage.AppendOutput("[INFO] Connected to gesture WebSocket server"));
+
+                while (ws.State == WebSocketState.Open)
+                {
+                    var result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var json = Encoding.UTF8.GetString(buffer, 0, result.Count);
+
+                    try
+                    {
+                        var msg = JsonSerializer.Deserialize<GestureMessage>(json, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+
+                        Dispatcher.Invoke(() =>
+                        {
+                            terminalPage.AppendOutput($"[GESTURE] {msg.Gesture} @ {msg.Timestamp}");
+
+                            // TODO: Control PowerPoint based on msg.Gesture here
+                            // if (msg.Gesture == "Swipe Right") new PowerPointController().NextSlide();
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            terminalPage.AppendOutput($"[ERROR] Failed to parse JSON: {ex.Message}");
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    terminalPage.AppendOutput($"[ERROR] WebSocket connection failed: {ex.Message}");
+                });
+            }
+        }
+
         private async void LaunchPythonBackend(TerminalOutputsPage terminalPage)
         {
             try
@@ -181,6 +239,9 @@ namespace HandyPresentationHelper.Pages
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
+
+                await Task.Delay(2000); // Give Python some time to start the server
+                _ = ConnectToGestureWebSocketAsync(terminalPage); // fire and forget
 
                 await process.WaitForExitAsync();
             }
