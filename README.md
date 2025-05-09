@@ -1,4 +1,4 @@
-# "Hand"y Presentation Helper
+# Gesture Based Presentation Helper
 Presentation helper using a ML model that detects and recognizes various hand gestures (forked from https://github.com/kinivi/hand-gesture-recognition-mediapipe, original version: https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe).
 
 ## Requisites
